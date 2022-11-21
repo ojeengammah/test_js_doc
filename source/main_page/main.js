@@ -144,18 +144,18 @@ function reformatDate(date){
  * Postcondition: The given chore no longer exists in the array in local storage
  * @param {Object} chore - A JSON object describing the chore to be removed
  */
-function removeChore(chore) {
+export function removeChore(chore) {
   //Get chores from localStorage.
   let chores = localStorage.getItem("chores");
-  chores = JSON.parse(chores);
   //checks if the chore we want to delete exists in the chore list
-  if(!chores.includes(chore)){
+  if(!chores.includes(JSON.stringify(chore))){
     console.log("The chore does not exist");
     return;
   }
+  chores = JSON.parse(chores);
   //if the chore exists then iterate through the chore list
   for(let i = 0; i < chores.length; i++){
-    if(chore == chores[i]){
+    if(JSON.stringify(chore) == JSON.stringify(chores[i])){
       //we found the chore element in the list that matches the chore we want to delete
       chores.splice(i, 1);
       //splice removes '1' element starting from 'i' index
@@ -194,7 +194,7 @@ async function saveChores() {
  * Precondition: There exists an array in local storage with the key "chores"
  * Postcondition: The chore list in the DOM contains all chores from local storage sorted by priority
  */
-function updateDocument() {
+export function updateDocument() {
   let chores = localStorage.getItem("chores");
   chores = JSON.parse(chores);
   //Get DOM element "chore-cards"
