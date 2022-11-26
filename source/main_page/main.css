@@ -2,23 +2,21 @@
 
 body{
     margin: 0;
+    overflow: scroll;
 }
 
 /*styling for header and chore list text*/
 .main-head{
-    display: grid;
-    gap: 0.875rem;
-    grid-template-columns: 1fr 3fr 1fr;
+    display: flex;
     background-color: #23DCB0;
-    overflow: hidden;
-    position: fixed;
+    overflow: scroll;
+    z-index: 1;
+    /*position: fixed;*/
     width: 100%;
 }
 
 .title-box{
     display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 100%;
 }
@@ -31,89 +29,139 @@ body{
     color: white;
     font-weight: 400;
 }
-
+.header-title a{
+    text-decoration: none;
+    color: white;
+}
+.header-title a:hover{
+    color: #999;
+}
 #chore-cards{
-    position: relative;
+    position: fixed;
     top: 70px;
+    overflow-y: auto;
 }
 
 /* styling for drop down button*/
-.dropdown-box {
-    display: none;
+
+.hamburg_menu{
     position: fixed;
-    z-index: 8;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
-}
-.modal-menu_content {
-    margin: 50px auto;
-    width: 60%;
-}
-.hamburg{
-    position: fixed;
-    top: 0;
+    top: -2.5px;
     right: 0;
 }
-.hamburg #openbtn:hover{
+.hamburg_menu #openbtn:hover{
     cursor: pointer;
+    opacity: 50%;
 }
-.modal_menu {
-    display: none;
-    position: fixed;
-    z-index: 8;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgb(0, 0, 0);
-    background-color: rgba(0, 0, 0, 0.4);
+.blur{
+    position: relative;
+    height: 750px;
+    width: 1500px;
+    background-color: rgba(27, 26, 26, 0.4);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    font-weight: bold;
+    z-index: -1;
 }
-
-/*
-#drop-down{
-    background: transparent;
-    border: none;
-    margin: 10px;
-    width: fit-content;
-    height: fit-content;
-    cursor:pointer;
+#openbtn{
+    position: relative;
+    top: 5px;
+    right: 20px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
-
-.dropdown-box #dropdownList{
-    display: none;
-}
-.dropdown-box a {
-    text-decoration: none;
-    color: white;
-    padding: 14px 16px;
-    font-size: 16px;
-    display: block;
-}
- */
-/* Navigation toggle menu styling */
-/*
-.dropdown-box a.icon {
-    display: block;
-    position: absolute;
+.priority_container{
+    background-color: rgb(227, 227, 227);
+    top: 52px;
     right: 0;
-    top: 0;
+    width: 200px;
+    height: 200px;
+    text-align: center;
+    position: absolute;
+    border-radius: 10px;
+    padding: 10px 0;
+    bottom: 100%;
+    z-index: -1;
 }
- */
-/* hover effect on navigation logo and menu */
-/*
-.dropdown-box a:hover {
-    background-color: #ddd;
-    color: black;
+
+.menu_box{
+    display: none;
+    z-index: 2;
+}
+.menu_box p{
+    margin-top: 7px;
+    margin-left: -135px;
+    z-index: 1;
+    text-align: center;
+}
+.priority_button{
+    background: #1c87c9;
+    background-position: center;
+    color: white; /* White text */
+    /*padding: top right bottom left*/
+    padding: 10px 20px 10px 20px; /* Some padding */
+    cursor: pointer; /* Pointer/hand icon */
+    border-radius: 10px;
+    border-top: none;
+    outline: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: none;
+    margin-bottom:25px;
+    margin-left: 25px;
+    margin-top: 20px;
+    width: 82%;
+    display: block; /* Make the buttons appear below each other */
+}
+
+#due_date_btn:hover, #section_btn:hover, #assignee_btn:hover{
+    opacity: 50%;
 } 
-*/
+.popup_arrow {
+    position: absolute;
+    width: 0; 
+    height: 0; 
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom: 20px solid rgb(227, 227, 227);
+    top: 40px;
+    right: 58%;
+}
+
+.hamburg_menu .display {
+    visibility: visible;
+}
+.main_page{
+    overflow-y: auto;
+}
+
+
+/*Styling for info box*/
+.info_box{
+    display: none;
+    height: 400px;
+    width: 400px;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: #1c87c9;
+    margin-left: 500px;
+    margin-top: 150px;
+}
+.info_box p{
+    overflow: scroll;
+    font-weight: 400;
+    color: #999;
+}
+.info_box .close {
+    color: rgb(178, 178, 178);
+    float: right;
+    margin-left: 430px;
+    margin-top: -5px;
+    font-size: 28px;
+    font-weight: bold;
+}
+
 /*styling for FAB add chore button*/
-footer{
+.footer{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -159,6 +207,7 @@ footer{
     overflow: auto;
     background-color: rgb(0, 0, 0);
     background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
 }
 .modal-content {
     margin: 50px auto;
@@ -209,10 +258,10 @@ button:hover {
     background: #2371a0;
 }
 .close {
-color: #aaa;
-float: right;
-font-size: 28px;
-font-weight: bold;
+    color: rgb(178, 178, 178);
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
 }
 .close:hover,
 .close:focus {
@@ -226,13 +275,8 @@ button.button {
     outline: none;
     border-right: none;
     border-left: none;
-    border-bottom: #02274a 0px solid;
+    border-bottom: none;
     padding: 0 0 3px 0;
     font-size: 16px;
     cursor: pointer;
-}
-
-button.button:hover {
-    border-bottom: #a99567 0px solid;
-    color: #a99567;
 }
