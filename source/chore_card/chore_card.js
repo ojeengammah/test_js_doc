@@ -38,6 +38,7 @@ class Chore_card extends HTMLElement{
         display: flex;\
         justify-content: center;\
         align-items: center;\
+        display: block;\
         }\
         .item2 {\
         grid-area: item2;\
@@ -59,13 +60,18 @@ class Chore_card extends HTMLElement{
         height: 100px;\
         border-radius: 50%;\
         }\
+        #assignee_cpt{\
+          margin-left: 30px;\
+          margin-top: 8px;\
+        }\
         #checkbox {\
         width: 50px;\
         height: 50px;\
         }\
         #label {\
             background-color: orange;\
-            padding: 2px;\
+            padding: 2px 15px;\
+            border-radius: 10px;\
         }";
         console.log(styleEl);
         shadowDOM.appendChild(articleEl);
@@ -95,6 +101,7 @@ class Chore_card extends HTMLElement{
             <div class=\"item1\">\
               <img id='assignee' src=\"../chore_card/assignee_img.jpg\"\
                 alt=\"assignee\">\
+                <figcaption id=\"assignee_cpt\">${data.assigneeSrc}</figcaption>\
               <!--<i class=\"fa-solid fa-user-ninja\" id=\"assignee\"></i>-->\
             </div>\
             <div class=\"item2\">\
