@@ -5,15 +5,15 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./main_page/main_page.css">
+    <link rel="stylesheet" href="main_page.css">
     <script src="https://kit.fontawesome.com/cd99b7ce8b.js" crossorigin="anonymous"></script>
     <title>Stonks Chore Tracker</title>
     <!-- Chore Card Custom Element -->
-    <script src="./chore_card/chore_card.js" type="module"></script>
+    <script src="../chore_card/chore_card.js" type="module"></script>
 
     <!-- Main Stylesheets & Scripts -->
-    <link rel="stylesheet" href="./main_page/main.css">
-    <script src="./main_page/main.js" type="module"></script>
+    <link rel="stylesheet" href="../main_page/main.css"  type="text/css">
+    <script src="../main_page/main.js" type="module"></script>
   </head>
   
  <body>
@@ -21,31 +21,34 @@
         <header class="main-head">
           <div></div>
           <div class="title-box">
-            <h2 class="header-title">Chore List</h2>
+            <h2 class="header-title"><a href="#">Chore List</a></h2>
           </div>
-          <div class="hamburg" data-modal="dropdown-box" id="hamburg">
+          <div class="hamburg_menu" id="hamburg_menu">
             <button type="button" id="drop-down" class="mydropdown-box">
-              <i class="fa-solid fa-bars fa-2xl" id="openbtn"></i> 
+              <i class="fa-solid fa-bars fa-2xl" id="openbtn"></i>
             </button>
+            <div class="menu_box" id="menu_box">
+              <div class="popup_arrow"></div>
+              <p>Sort</p>
+              <div class="priority_container" id="priority_list">
+                <button type="button" class="priority_button" id="due_date_btn">By due date</button>
+                <button type="button" class="priority_button" id="section_btn">By section</button>
+                <button type="button" class="priority_button" id="assignee_btn">By assignee</button>
+              </div>   
+            </div>           
           </div>
-          <div class="dropdown-box" class="modal_menu">
-            <div class="model_menu_content">
-              <div class="mydropdown" id="dropdownList">
-                <a class="close_dropdown">&times;</a>
-                <a href="#">By due date</a>
-                <a href="#">By section</a>
-                <a href="#">By assignee</a>
-              </div>
-            </div>
-          </div>
+          
         </header>
-        
+        <div class="main_page">
           <main>
             <section id="chore-cards">
             </section>
+            <div class="info_box">
+              <a class="close">&times;</a>
+              <p></p>
+            </div>
           </main>
-        
-          <footer>
+          <div class="footer">
             <div class="fab-container" data-modal="modal_form" id="add-chore">
               <div class="button iconbutton">
                 <i class="fa-solid fa-plus"></i>
@@ -72,11 +75,10 @@
                 </div>
               </div>
             </div>
-          </footer>
+          </div>
+        </div>
     </div>
    
   </body>
 
 </html>
-
-
