@@ -1,27 +1,192 @@
+// TODO remove the preloaded chores file
+//var historyFile = './JSON_files/History_chore.json';
+//var choreListFile = './JSON_files/Chore_list.json';
+
 /* ################################### */
 /* ######### EVENT LISTENERS ######### */
 /* ################################### */
 
-
-// Initialize page with previously-stored chore list
+// Run the init() function when the page has loaded
 window.addEventListener('DOMContentLoaded', init);
+// TODO Update event listener for adding chores if needed
 
-// Respond to clicking "add chore" button
+// Refer to plus button in the main page
 const button = document.getElementById('add-chore');
-button.addEventListener('click', () => {
+// Refer to plus button in the main page
+// Begin the add-chore page
+let modalBtns = document.getElementById("add-chore");
+modalBtns.onclick = function () {
+    let modal = modalBtns.getAttribute("data-modal");
+    document.getElementById(modal).style.display = "block";
+};
+//Add a button to close the form screen. 
+let closeBtns = document.querySelector(".close");
+closeBtns.onclick = function () {
+    let modal = closeBtns.closest(".modal");
+    modal.style.display = "none";
+};
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function (event) {
+  if (event.target.className === "modal") {
+    event.target.style.display = "none";
+  }
+};
+// When the user clicks submit, store the data and put into chore-card element
+let submitBtn = document.getElementById('submit');
+submitBtn.onclick = function (event) {
+  event.preventDefault();
+  const form = document.getElementById('form');
+  const formData = new FormData(form);
+  const chore = Object.fromEntries(formData);
+  console.log(chore);
+  addChore(chore);
+};
+// TODO as specified below, add event listener for removing chores
+
+/** To be completed. An eventListener for removing the chore card will be here. 
+ * When the user drag chore card away or when the due date is passed, remove_chores 
+ * will be called to remove that chore card from History_chore.json. 
+ */
+
+function clickChore(){
+  setTimeout( ()=>{
+    const chore_card = document.querySelector('chore-card');
+    const assignee = document.querySelector('chore-card').shadowRoot.querySelector('article').querySelector('.item1').querySelector('figcaption').innerHTML;
+    if(chore_card != null){
+      chore_card.addEventListener('click', ()=>{
+        let chores = JSON.parse(localStorage.getItem('chores'));
+        document.querySelector('.info_box p').innerHTML = assignee;
+      })
+    }
+  });
+ 
+}
+
+/* ################################### */
+/* ############ FUNCTIONS ############ */
+/* ################################### */
+
+// Starts the program, all function calls trace back here
+// TODO Update init if needed
+async function init() {
+  menu();
+  //Get chores from persistent storage into local storage
+  //When done update the document with local storage chore cards
+  getChores().then(updateDocument);
+  clickChore();
+  // Get the recipes from history_chore.json
+  /*
+  let chores;
+  menu();
+  try {
+    chores = await getChores(historyFile);
+    addChores();
+  } catch (err) {
+    console.error(err);
+  }
+  
+  // Add each recipe to the <main> element
+  addChoresToDocument(chores);
+  */
+}
+
+/**
+ * Sort chores based on the user's selection: due date, assignee, or section
+ * Precondition: None
+ * Postcondition: All chores are displayed in the sorted way.
+ */
+
+/**
+ * Retrieves chores from persistent storage and places them in local storage
+ * Precondition: All chores to be displayed in the chore list are existent in persistent storage
+ * Postcondition: All chores to be displayed in the chore list are existent in local storage, with the "chores" key
+ */
+async function getChores(){
+  // TODO fix contents
+  if(!localStorage.getItem("chores")){
+    // For now, just make an empty "chores" array in local storage, if it doesn't exist
+    localStorage.setItem("chores","[]");
+  }
+  console.log("Chores Retrieved (Dummy Function)");
+  // TODO Use following for reference, but delete once complete
+  /*
+  const precious_chores = [];
+  const response = await fetch(file);
+  //parses JSON response into native JavaScript objects
+  const chores = await response.json();
+  return chores;
+  */
+}
+function menu(){
+  // Begin the menu page
+  let btn = document.getElementById("drop-down");
+  let menu = document.getElementById("menu_box");
+  btn.addEventListener('click', ()=>{
+    //console.log(menu.style.display);
+    if (menu.style.display === 'none') {
+      menu.style.display = 'block';
+    }
+    else if(menu.style.display === ''){
+      menu.style.display = 'block';
+    }
+    else{
+      menu.style.display = 'none';
+    }
+    // user clicks on by due date button
+    document.getElementById('due_date_btn').onclick = function(){
+      console.log("due date button was clicked");
+    }
+    document.getElementById('section_btn').onclick = function(){
+      console.log("section button was clicked");
+    }
+    document.getElementById('assignee_btn').onclick = function(){
+      console.log("assignee button was clicked");
+    }
+  });
+
+}
+/**
+ * Given a chore, add it to local storage
+ * Precondition: There exists an array in local storage with the key "chores"
+ * Postcondition: The new chore is added to this array in local storage
+ * @param {Object} chore - A JSON object describing the chore to be added
+ */
+function addChore(chore) {
+  // There should be NO EVENT LISTENERS in this function
+  let chores = localStorage.getItem("chores");
+  chores = JSON.parse(chores);
+  //Add chore into correct order position in chores array.
+  for(let i = 0; i < chores.length; i++){
+    if(chore.time<chores[i].time){
+      chores.splice(i, 0, chore);
+      break;
+    }
+  }
+  //If the chores is empty.
+  if(chores.length == 0){
+    chores.push(chore);
+  }
+  //Set into local storage
+  localStorage.setItem("chores",JSON.stringify(chores));
+  // TODO Use following for reference, but delete once complete
+  //Below is the code for form. Will implement form outside of addChores.
+  /*
+  // Begin the add-chore page
+  const chores = [];
+  // Refer to plus button in the main page
+
   // Begin the add-chore page
   let modalBtns = document.getElementById("add-chore");
   modalBtns.onclick = function () {
       let modal = modalBtns.getAttribute("data-modal");
       document.getElementById(modal).style.display = "block";
   };
-  // Add a button to close the form screen. 
   let closeBtns = document.querySelector(".close");
   closeBtns.onclick = function () {
       let modal = closeBtns.closest(".modal");
       modal.style.display = "none";
   };
-  // When the user clicks anywhere outside of the form, close it
+  // When the user clicks anywhere outside of the modal, close it
   window.onclick = function (event) {
     if (event.target.className === "modal") {
       event.target.style.display = "none";
@@ -30,124 +195,53 @@ button.addEventListener('click', () => {
   // When the user clicks submit, store the data and put into chore-card element
   let submitBtn = document.getElementById('submit');
   submitBtn.onclick = function (event) {
-    // Transfer data from form to new chor card
     event.preventDefault();
     const form = document.getElementById('form');
     const formData = new FormData(form);
     const chore = Object.fromEntries(formData);
-    addChore(chore);
-    
-    // Update page and exit "add chore" form
-    updateDocument();
-    let modal = modalBtns.getAttribute("data-modal");
-    document.getElementById(modal).style.display = "none";
-  };
-});
-
-// Save chores to persistent storage when the page closes
-window.addEventListener('unload', saveChores);
-
-
-/* ################################### */
-/* ############ FUNCTIONS ############ */
-/* ################################### */
-
-
-/**
- * Initialize page with chores from persistent storage
- * Postcondition: All chores in the chore list are available in local storage and displayed on the screen
- */
-async function init() {
-  // Get chores from persistent storage into local storage
-  // When done update the document with local storage chore cards
-  getChores().then(updateDocument);
-}
-
-
-/**
- * Retrieves chores from persistent storage and places them in local storage
- * Precondition: All chores to be displayed in the chore list are existent in persistent storage and correctly sorted
- * Postcondition: All chores to be displayed in the chore list are existent in a sorted array in local storage with the "chores" key
- * @async
- */
-async function getChores(){
-  // TODO implement persistent storage.
-  if(!localStorage.getItem("chores")){
-    // For now, just make an empty "chores" array in local storage, if it doesn't exist
-    localStorage.setItem("chores","[]");
-  }
-  console.log("Chores Retrieved (Dummy Function)");
-}
-
-// TODO Check this
-function menu(){
-  // Open the drop-down menu
-  let modalBtns = document.getElementById("drop-down");
-  modalBtns.onclick = function () {
-      let modal = modalBtns.getAttribute("data-modal");
-      alert(document.getElementById(modal));
-      document.getElementById(modal).style.display = "block";
-  };
-  let closeBtns = document.querySelector(".close");
-  closeBtns.onclick = function () {
-      let modal = closeBtns.closest(".modal_menu");
-      modal.style.display = "none";
-  };
-  // When the user clicks anywhere outside of the menu, close it
-  window.onclick = function (event) {
-    if (event.target.className === "modal_menu") {
-      event.target.style.display = "none";
+    console.log(chore);
+  // Create a new element chore-card in the main
+  let chore_card = document.createElement("chore-card");
+  chore_card.data = chore;
+  document.querySelector("main").appendChild(chore_card);
+  const data = JSON.stringify(chore);
+  saveDataToJson(data, historyFile);
+  */
+  
+  // Check if the user enter the valid input
+    const regex = /^\d{2}\/\d{2}\/\d{4}$/;
+    if(chore['choreName'] == '' || chore['section'] == '' || chore['assigneeSrc'] == '' || chore['date'] == ''){
+      alert('Please enter the valid response.');
     }
-  };
-}
-
-/**
- * Given a chore, add it to local storage
- * Precondition: There exists a sorted array in local storage with the key "chores"
- * Postcondition: The new chore is added in the correct position to this array in local storage
- * @param {Object} chore - A JSON object describing the chore to be added
- */
-function addChore(chore) {
-  // Retrieve and parse chores from local storage
-  let chores = localStorage.getItem("chores");
-  chores = JSON.parse(chores);
-  let initialLength = chores.length;
-
-  // Add chore into correct order position in chores array.
-  for(let i = 0; i < chores.length; i++){
-    if(reformatDate(chore.date) <= reformatDate(chores[i].date)){
-      chores.splice(i, 0, chore);
-      break;
+    else if(chore['date'].match(regex) == null){
+      alert('Please enter a valid date (mm/dd/yyyy).');
     }
-  }
-
-  // Add chore at end if not added already
-  if(chores.length == initialLength){
+    // If the user enter the valid input, add it into chore-card and close the submit form
+    else{
+      // Create a new element chore-card in the main
+      let chore_card = document.createElement("chore-card");
+      chore_card.data = chore;
+      document.querySelector("#chore-cards").appendChild(chore_card);
+      const data = JSON.stringify(chore);
+      chores.push(chore);
+      form.reset();
+      //saveDataToJson(data, historyFile);
+    }
+    /*let chore_card = document.createElement("chore-card");
+    chore_card.data = chore;
+    document.querySelector("main").appendChild(chore_card);
+    const data = JSON.stringify(chore);
     chores.push(chore);
-  }
-
-  // Set into local storage
-  localStorage.setItem("chores", JSON.stringify(chores));
+    form.reset();*/
 }
 
-/**
- * Format a date string to make it lexicographically comparable
- * @param {string} date - a date in mm/dd/yyyy format
- * @returns string newDate in yyyymmdd format
- */
-function reformatDate(date){
-  // Separate and reorder the elements of the given date
-  let newDate = date.split("/");
-  newDate = newDate[2] + newDate[0] + newDate[1];
-  return newDate;
-}
 
 /**
  * Given a chore, remove it from local storage
  * Postcondition: The given chore no longer exists in the array in local storage
  * @param {Object} chore - A JSON object describing the chore to be removed
  */
-export function removeChore(chore) {
+ export function removeChore(chore) {
   // Get chores from localStorage.
   let chores = localStorage.getItem("chores");
   
