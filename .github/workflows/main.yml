@@ -63,12 +63,15 @@ jobs:
         if: always()
         with: 
          add: LOG/super-linter.log
-  codacy-analysis-cli:
-    name: Codacy Analysis CLI
+  codacy-coverage-reporter:
     runs-on: ubuntu-latest
+    name: codacy-coverage-reporter
     steps:
-      - name: Checkout code
-        uses: actions/checkout@main
-
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
+      - uses: actions/checkout@v2
+      - name: Run codacy-coverage-reporter
+        uses: codacy/codacy-coverage-reporter-action@v1
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          # or
+          # api-token: ${{ secrets.CODACY_API_TOKEN }}
+          coverage-reports: cobertura.xml
