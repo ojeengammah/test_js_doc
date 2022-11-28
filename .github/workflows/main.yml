@@ -63,7 +63,7 @@ jobs:
         if: always()
         with: 
          add: LOG/super-linter.log
-           codacy-analysis-cli:
+  codacy-analysis-cli:
     name: Codacy Analysis CLI
     runs-on: ubuntu-latest
     steps:
