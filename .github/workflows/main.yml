@@ -64,7 +64,7 @@ jobs:
         with: 
          add: LOG/super-linter.log
   codacy-analysis-cli:
-    name: Codacy Analysis CLI
+    name: Codacy Analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
