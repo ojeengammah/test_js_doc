@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: chore_card/chore_card.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: chore_card/chore_card.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//Template files
+
+import { removeChore, updateDocument } from "../main_page/main.js";
+
+// Called once when document.createElement('chore_card') is called, or
+// the element is written into the DOM directly as &lt;chore_card>
+class Chore_card extends HTMLElement{
+    constructor() {
+        super(); 
+        let shadowDOM = this.attachShadow({mode: 'open'});
+        let articleEl = document.createElement('article');
+        let styleEl = document.createElement('style');
+
+        styleEl.textContent = "\
+        .grid-container {\
+        border-style: solid;\
+        border-radius: 20px;\
+        width: 620px;\
+        display: grid;\
+        grid-template-areas:\
+            'item1 item2 item5'\
+            'item1 item3 item5'\
+            'item1 item4 item5';\
+        grid-template-columns: 120px 400px 75px;\
+        grid-template-rows: 60px 60px 60px;\
+        gap: 10px;\
+        background-color: rgb(181, 177, 177);\
+        padding: 10px;\
+        }\
+        .grid-container > div {\
+        background-color: rgb(181, 177, 177);\
+        text-align: left;\
+        padding: 20px 0;\
+        font-size: 20px;\
+        }\
+        .item1 {\
+        grid-area: item1;\
+        display: flex;\
+        justify-content: center;\
+        align-items: center;\
+        }\
+        .item2 {\
+        grid-area: item2;\
+        }\
+        .item3 {\
+        grid-area: item3;\
+        }\
+        .item4 {\
+        grid-area: item4;\
+        }\
+        .item5 {\
+        grid-area: item5;\
+        display: flex;\
+        justify-content: right;\
+        align-items: top;\
+        }\
+        #assignee {\
+        width: 100px;\
+        height: 100px;\
+        border-radius: 50%;\
+        }\
+        #checkbox {\
+        width: 50px;\
+        height: 50px;\
+        }\
+        #label {\
+            background-color: orange;\
+            padding: 2px;\
+        }";
+        console.log(styleEl);
+        shadowDOM.appendChild(articleEl);
+        shadowDOM.appendChild(styleEl); 
+    }
+    
+    /**
+     * Called when the .data property is set on this element.
+     *  @param {Object} data - The data to pass into the &lt;chore-card>, must be of the
+     *                        following format:
+     *                        {
+     *                          "assigneeSrc": "string",             
+     *                          "choreName": "string",
+     *                          "date": "string",
+     *                          "section": "string"
+     *                          "boxSrc": "string",
+     *                        }
+     */
+    set data(data) {
+        // If nothing was passed in, return
+        if (!data) return;
+
+        let articleEl = this.shadowRoot.querySelector('article');
+        
+        articleEl.innerHTML = `\
+          &lt;div class=\"grid-container\">\
+            &lt;div class=\"item1\">\
+              &lt;img id='assignee' src=\"../chore_card/assignee_img.jpg\"\
+                alt=\"assignee\">\
+              &lt;!--&lt;i class=\"fa-solid fa-user-ninja\" id=\"assignee\">&lt;/i>-->\
+            &lt;/div>\
+            &lt;div class=\"item2\">\
+              &lt;h3 class=\"name\">${data.choreName}&lt;/h3>\
+            &lt;/div>\
+            &lt;div class=\"item3\">\
+              &lt;h4 class=\"date\">${data.date}&lt;/h4>\
+            &lt;/div>\
+            &lt;div class=\"item4\">\
+              &lt;span id=\"label\">${data.section}&lt;/span>\
+            &lt;/div>\
+            &lt;div class=\"item5\">\
+              &lt;button id=\"checkbox\">&lt;/button>
+              &lt;!--&lt;i class=\"fa-regular fa-square\" id=\"checkbox\">&lt;/i>-->\
+              &lt;!--&lt;i class=\"fa-regular fa-square-check\" id=\"checkbox\">&lt;/i>-->\
+            &lt;/div>\
+          &lt;/div>`;
+        let checkbox = articleEl.querySelector("#checkbox");
+        checkbox.addEventListener("click", () => {
+          removeChore(data);
+          updateDocument();
+        });
+    }
+}
+
+customElements.define('chore-card', Chore_card);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addChore">addChore</a></li><li><a href="global.html#getChores">getChores</a></li><li><a href="global.html#init">init</a></li><li><a href="global.html#reformatDate">reformatDate</a></li><li><a href="global.html#removeChore">removeChore</a></li><li><a href="global.html#saveChores">saveChores</a></li><li><a href="global.html#updateDocument">updateDocument</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Nov 29 2022 19:10:22 GMT+0000 (Coordinated Universal Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
