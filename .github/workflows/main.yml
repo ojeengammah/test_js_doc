@@ -63,17 +63,6 @@ jobs:
         if: always()
         with: 
          add: LOG/super-linter.log
-  codacy-analysis-cli:
-    name: Codacy Analysis CLI
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@main
-
-      - name: Run Codacy Analysis CLI
-        uses: codacy/codacy-analysis-cli-action@master
-        with: 
-          project-token: ${{secrets.CODACY_PROJECT_TOKEN}}
   deploy:
     runs-on: ubuntu-latest
     steps:
