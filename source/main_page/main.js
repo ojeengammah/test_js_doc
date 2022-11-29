@@ -12,7 +12,7 @@ button.addEventListener('click', () => {
   // Begin the add-chore page
   let modalBtns = document.getElementById("add-chore");
   modalBtns.onclick = function () {
-      let modal = modalBtns.getAttribute("data-modal");
+      let modal = modalBtns.getAttribute('data-modal');
       document.getElementById(modal).style.display = "block";
   };
   // Add a button to close the form screen. 
