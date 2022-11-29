@@ -8,55 +8,6 @@ on: workflow_dispatch
 # Set the Job #
 ###############
 jobs:
-  lint:
-    # Name the Job
-    name: Lint Code Base
-    # Set the agent to run on
-    runs-on: ubuntu-latest
-
-    ##################
-    # Load all steps #
-    ##################
-    steps:
-      ##########################
-      # Checkout the code base #
-      ##########################
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          # Full git history is needed to get a proper
-          # list of changed files within `super-linter`
-          fetch-depth: 0
-      ################################
-      # Run Linter against code base #
-      ################################
-      - name: Lint Code Bases
-        uses: github/super-linter@v4
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LOG_LEVEL: ERROR
-          VALIDATE_ALL_CODEBASE: true
-          VALIDATE_CSS: true;
-          VALIDATE_HTML: true;
-          VALIDATE_MARKDOWN: true;
-          VALIDATE_NATURAL_LANUGAGE: true;
-      #########################################
-      # Moves file outputted by Linter to LOG #
-      #########################################
-      - name: Move
-        if: always()
-        run: | 
-         if [ ! -d LOG ]; then 
-          mkdir LOG;
-         fi
-         mv super-linter.log LOG; 
-      ####################################
-      # Update repo with LOG file update #
-      ####################################      
-      - uses: EndBug/add-and-commit@v9.1.1
-        if: always()
-        with: 
-         add: LOG/super-linter.log
   deploy:
     runs-on: ubuntu-latest
     steps:
