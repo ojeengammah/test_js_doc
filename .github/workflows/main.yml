@@ -20,7 +20,8 @@ jobs:
           source_dir: ./
           output_dir: ./out
           recurse: true
-          front_page: index.html
+          template: minami
+          front_page: README.md
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
