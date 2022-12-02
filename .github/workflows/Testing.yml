@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: '12'
       - run: npm install yarn
-      - run: yarn test
+      - run: yarn install
 
       - name: Tests ✅
         if: ${{ success() }}
